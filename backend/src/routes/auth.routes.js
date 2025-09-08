@@ -7,11 +7,11 @@ const router = express.Router();
 //user auth APIs
 router.post('/user/register',authController.registerController);
 router.post("/user/login", authController.loginController);
-router.post("/user/logout", authController.logoutController);
+router.get("/user/logout", authController.logoutController);
 
 //food partner auth APIs
 router.post('/food-partner/register',authController.registerFoodPartnerController);
 router.post("/food-partner/login", authController.loginFoodPartnerController);
-router.post("/food-partner/logout", authController.logoutFoodPartnerController);
+router.get("/food-partner/logout", authController.logoutFoodPartnerController);
 
 module.exports = router;

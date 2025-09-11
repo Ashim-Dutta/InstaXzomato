@@ -7,8 +7,8 @@ async function createFood(req, res) {
     const fileUploadResult = await storageService.uploadfile(req.file.buffer, uuid())
         const foodItem = await foodModel.create({
             name: req.body.name,
-            description: req.body.description,
             video: fileUploadResult.url,
+            description: req.body.description,
             foodPartner:req.foodPartner._id
         })
     

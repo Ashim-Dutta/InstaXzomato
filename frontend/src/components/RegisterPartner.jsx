@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPartner = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "", // Restaurant Name
     contactName: "", // Contact Person
@@ -42,9 +46,21 @@ const RegisterPartner = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Registering partner with:", formData);
+    const { name, contactName, phone, address, email, password } = formData;
+    axios.post("http://localhost:5000/api/food-partner/register", {
+      name,
+      contactName,
+      phone,
+      address,
+      email,
+      password
+    }, {
+      withCredentials:true
+    })
+
+    navigate('/create-food')
   };
 
   return (

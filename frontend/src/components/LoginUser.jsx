@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginUser = () => {
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState({ email: false, password: false });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Logging in with:", { email, password });
+
+    await axios.post('http://localhost:3000/api/auth/user/login', {
+      email,password
+    }, {
+      withCredentials:true
+    })
+
+    navigate('/');
+
   };
 
   return (

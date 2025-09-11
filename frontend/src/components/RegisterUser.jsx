@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterUser = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -40,14 +43,20 @@ const RegisterUser = () => {
     e.preventDefault();
     const { fullname, email, password } = formData;
     
-    await axios.post('http://localhost:3000/api/auth/user/register', {
+  await axios.post('http://localhost:3000/api/auth/user/register', {
       fullname,email,password
+    }, {
+      withCredentials:true
     })
+
+    navigate('/');
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-indigo-950 px-4 relative overflow-hidden">
+      
       {/* Animated background elements */}
+
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-purple-600/10 rounded-full filter blur-3xl animate-pulse-slow"></div>
       <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-cyan-600/10 rounded-full filter blur-3xl animate-pulse-medium"></div>
 

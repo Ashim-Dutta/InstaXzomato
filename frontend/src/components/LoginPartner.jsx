@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginPartner = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,10 +37,17 @@ const LoginPartner = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Logging in with:", formData);
+    const { email, password } = formData;
+
+    await axios.post("http://localhost:3000/api/auth/food-partner/login", {
+      email,
+      password,
+    }, {
+      withCredentials: true,
+    })
+    navigate('/create-food')
   };
 
   return (

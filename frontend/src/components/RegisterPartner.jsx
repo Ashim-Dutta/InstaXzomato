@@ -3,16 +3,21 @@ import { motion } from "framer-motion";
 
 const RegisterPartner = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    name: "", // Restaurant Name
+    contactName: "", // Contact Person
+    phone: "",
+    address: "",
     email: "",
     password: "",
   });
+
   const [isFocused, setIsFocused] = useState({
-    restaurantName: false,
+    name: false,
+    contactName: false,
+    phone: false,
+    address: false,
     email: false,
     password: false,
-    cuisineType: false,
-    address: false,
   });
 
   const handleInputChange = (e) => {
@@ -39,13 +44,12 @@ const RegisterPartner = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle registration logic here
     console.log("Registering partner with:", formData);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-900 via-black to-orange-950 px-4 relative overflow-hidden">
-      {/* Animated background elements */}
+      {/* Background animations */}
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-amber-600/10 rounded-full filter blur-3xl animate-pulse-slow"></div>
       <div className="absolute bottom-1/3 right-1/3 w-64 h-64 bg-orange-600/10 rounded-full filter blur-3xl animate-pulse-medium"></div>
 
@@ -55,7 +59,6 @@ const RegisterPartner = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        {/* Header with animated underline */}
         <div className="mb-8">
           <motion.h2
             className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 mb-2"
@@ -74,44 +77,104 @@ const RegisterPartner = () => {
         </div>
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-          {/* Animated restaurant name input */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
+          {/* Restaurant Name */}
+          <motion.div className="relative">
             <input
-              name="restaurantName"
+              name="name"
               type="text"
               value={formData.name}
               onChange={handleInputChange}
-              onFocus={() => handleFocus("restaurantName")}
-              onBlur={() => handleBlur("restaurantName")}
+              onFocus={() => handleFocus("name")}
+              onBlur={() => handleBlur("name")}
               placeholder=" "
               required
-              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 peer transition-all duration-300"
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
             />
             <label
-              className={`absolute left-4 transition-all duration-300 pointer-events-none
-                ${
-                  isFocused.restaurantName || formData.restaurantName
-                    ? "top-0.5 text-xs text-amber-400"
-                    : "top-4 text-gray-400"
-                }`}
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.name || formData.name
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
             >
               Restaurant Name
             </label>
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-600 transition-all duration-300 peer-focus:w-full"></div>
           </motion.div>
 
-          {/* Animated email input */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
+          {/* Contact Name */}
+          <motion.div className="relative">
+            <input
+              name="contactName"
+              type="text"
+              value={formData.contactName}
+              onChange={handleInputChange}
+              onFocus={() => handleFocus("contactName")}
+              onBlur={() => handleBlur("contactName")}
+              placeholder=" "
+              required
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
+            />
+            <label
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.contactName || formData.contactName
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
+            >
+              Contact Name
+            </label>
+          </motion.div>
+
+          {/* Phone */}
+          <motion.div className="relative">
+            <input
+              name="phone"
+              type="text"
+              value={formData.phone}
+              onChange={handleInputChange}
+              onFocus={() => handleFocus("phone")}
+              onBlur={() => handleBlur("phone")}
+              placeholder=" "
+              required
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
+            />
+            <label
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.phone || formData.phone
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
+            >
+              Phone
+            </label>
+          </motion.div>
+
+          {/* Address */}
+          <motion.div className="relative">
+            <input
+              name="address"
+              type="text"
+              value={formData.address}
+              onChange={handleInputChange}
+              onFocus={() => handleFocus("address")}
+              onBlur={() => handleBlur("address")}
+              placeholder=" "
+              required
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
+            />
+            <label
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.address || formData.address
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
+            >
+              Address
+            </label>
+          </motion.div>
+
+          {/* Email */}
+          <motion.div className="relative">
             <input
               name="email"
               type="email"
@@ -121,28 +184,21 @@ const RegisterPartner = () => {
               onBlur={() => handleBlur("email")}
               placeholder=" "
               required
-              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 peer transition-all duration-300"
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
             />
             <label
-              className={`absolute left-4 transition-all duration-300 pointer-events-none
-                ${
-                  isFocused.email || formData.email
-                    ? "top-0.5 text-xs text-amber-400"
-                    : "top-4 text-gray-400"
-                }`}
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.email || formData.email
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
             >
               Email Address
             </label>
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-600 transition-all duration-300 peer-focus:w-full"></div>
           </motion.div>
 
-          {/* Animated password input */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-          >
+          {/* Password */}
+          <motion.div className="relative">
             <input
               name="password"
               type="password"
@@ -152,61 +208,35 @@ const RegisterPartner = () => {
               onBlur={() => handleBlur("password")}
               placeholder=" "
               required
-              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 peer transition-all duration-300"
+              className="w-full px-5 py-4 rounded-xl border border-amber-600/40 bg-gray-800/40 text-white peer focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all duration-300"
             />
             <label
-              className={`absolute left-4 transition-all duration-300 pointer-events-none
-                ${
-                  isFocused.password || formData.password
-                    ? "top-0.5 text-xs text-amber-400"
-                    : "top-4 text-gray-400"
-                }`}
+              className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                isFocused.password || formData.password
+                  ? "top-0.5 text-xs text-amber-400"
+                  : "top-4 text-gray-400"
+              }`}
             >
               Password
             </label>
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-600 transition-all duration-300 peer-focus:w-full"></div>
           </motion.div>
 
-          {/* Animated cuisine type input */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
-           
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-500 to-orange-600 transition-all duration-300 peer-focus:w-full"></div>
-          </motion.div>
-
-
-
-          {/* Animated register button */}
+          {/* Register Button */}
           <motion.button
             type="submit"
             className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-medium hover:from-amber-600 hover:to-orange-700 transition-all duration-500 shadow-lg hover:shadow-amber-500/30 relative overflow-hidden group"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
           >
             <span className="relative z-10">REGISTER RESTAURANT</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="absolute top-0 left-0 w-full h-full bg-white/10 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           </motion.button>
         </form>
 
-        {/* Login link */}
-        <motion.p
-          className="mt-8 text-center text-sm text-gray-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.5 }}
-        >
+        <motion.p className="mt-8 text-center text-sm text-gray-400">
           Already have an account?{" "}
           <a
             href="/food-partner/login"
-            className="text-amber-400 hover:text-amber-300 transition-colors duration-300 font-medium"
+            className="text-amber-400 hover:text-amber-300 font-medium"
           >
             Sign In
           </a>

@@ -94,7 +94,7 @@ async function logoutController(req, res) {
 
 
 async function registerFoodPartnerController(req, res) { 
-  const { name, email, password } = req.body;
+  const { name, email, password, phone, address, contactName } = req.body;
 
   const existingFoodPartner = await foodPartnerModel.findOne({
     email,
@@ -110,7 +110,11 @@ async function registerFoodPartnerController(req, res) {
   const foodPartner = await foodPartnerModel.create({
     name,
     email,
-    password: hashedPassword //10 is called SALT
+    password: hashedPassword, //10 is called SALT
+    phone,
+    address,
+    contactName
+
   });
 
   const token = jwt.sign(

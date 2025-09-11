@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    fullname: "",
     email: "",
     password: "",
   });
   const [isFocused, setIsFocused] = useState({
-    name: false,
+    fullname: false,
     email: false,
     password: false,
   });
@@ -35,10 +36,13 @@ const RegisterUser = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log("Registering with:", formData);
+    const { fullname, email, password } = formData;
+    
+    await axios.post('http://localhost:3000/api/auth/user/register', {
+      fullname,email,password
+    })
   };
 
   return (
@@ -80,12 +84,12 @@ const RegisterUser = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <input
-              name="name"
+              name="fullname"
               type="text"
-              value={formData.name}
+              value={formData.fullname}
               onChange={handleInputChange}
-              onFocus={() => handleFocus("name")}
-              onBlur={() => handleBlur("name")}
+              onFocus={() => handleFocus("fullname")}
+              onBlur={() => handleBlur("fullname")}
               placeholder=" "
               required
               className="w-full px-5 py-4 rounded-xl border border-gray-600/40 bg-gray-800/40 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 peer transition-all duration-300"
@@ -93,7 +97,7 @@ const RegisterUser = () => {
             <label
               className={`absolute left-4 transition-all duration-300 pointer-events-none
                 ${
-                  isFocused.name || formData.name
+                  isFocused.fullname || formData.fullname
                     ? "top-0.5 text-xs text-cyan-400"
                     : "top-4 text-gray-400"
                 }`}

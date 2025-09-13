@@ -15,8 +15,6 @@ import {
 } from "react-icons/fi";
 
 const ReelsFeed = () => {
-
-
   const [videos, setVideos] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRefs = useRef([]);
@@ -26,12 +24,21 @@ const ReelsFeed = () => {
     axios
       .get("http://localhost:3000/api/food", { withCredentials: true })
       .then((response) => {
-        setVideos(response.data.food);
-      });
+        console.log(response.data);
+        // add `liked: false` to every video initially
+        const withLikeState = response.data.food.map((v) => ({
+          ...v,
+          liked: false,
+        }));
+        setVideos(withLikeState);
+      })
+      .catch((err) => console.error("Error fetching videos:", err));
   }, []);
 
 
   useEffect(() => {
+    if (!videos.length) return;
+
     const options = {
       root: null,
       rootMargin: "0px",
@@ -46,7 +53,6 @@ const ReelsFeed = () => {
           );
           setCurrentVideoIndex(index);
 
-          // Play the current video and pause others
           videoRefs.current.forEach((video, i) => {
             if (video) {
               if (i === index) {
@@ -76,22 +82,54 @@ const ReelsFeed = () => {
   const handleVideoClick = () => {
     const video = videoRefs.current[currentVideoIndex];
     if (video) {
-      if (video.paused) {
-        video.play();
-      } else {
-        video.pause();
-      }
+      video.paused ? video.play() : video.pause();
     }
   };
+
+  async function likeVideo(item) {
+
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/food/like",
+        { foodId: item._id },
+        { withCredentials: true }
+      );
+
+      if (response.data.like) {
+
+
+        setVideos((prev) =>
+          prev.map((v) =>
+            v._id === item._id
+              ? { ...v, likeCount: v.likeCount + 1, liked: true }
+              : v
+          )
+        );
+      } else {
+        setVideos((prev) =>
+          prev.map((v) =>
+            v._id === item._id
+              ? {
+                  ...v,
+                  likeCount: Math.max(0, v.likeCount - 1),
+                  liked: false,
+                }
+              : v
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Like error:", err);
+    }
+  }
 
   return (
     <div className="flex flex-col h-screen bg-black text-white">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 bg-black z-50 border-b border-gray-800">
         <div className="flex justify-between items-center p-3 max-w-6xl mx-auto">
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold">instaXzomato</h1>
-          </div>
+          <h1 className="text-2xl font-bold">instaXzomato</h1>
 
           <div className="hidden md:flex items-center bg-gray-900 rounded-md px-3 py-1.5 flex-1 max-w-xs mx-6">
             <FiSearch className="text-gray-400 mr-2" />
@@ -119,7 +157,7 @@ const ReelsFeed = () => {
           {videos.map((video, idx) => (
             <div
               className="relative h-screen mt-10 max-h-[calc(100vh-56px)]"
-              key={idx}
+              key={video._id || idx}
             >
               <div className="relative h-full w-full bg-black">
                 <video
@@ -131,28 +169,25 @@ const ReelsFeed = () => {
                   onClick={handleVideoClick}
                 />
 
-                {/* Overlay with content */}
+                {/* Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                  {/* Right sidebar actions */}
+                  {/* Right sidebar */}
                   <div className="absolute right-4 bottom-24 flex flex-col items-center space-y-6 ">
-                    <div className="flex flex-col items-center">
-                      <div className="rounded-full p-2 bg-black/30 backdrop-blur-md">
-                        <img
-                          src="https://placekitten.com/50/50"
-                          alt="User"
-                          className="h-10 w-10 rounded-full object-cover border border-white"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col items-center">
-                      <FiHeart className="text-2xl mb-1" />
-                      <span className="text-xs">245</span>
+                    <div
+                      onClick={() => likeVideo(video)}
+                      className="flex flex-col items-center cursor-pointer"
+                    >
+                      <FiHeart
+                        className={`text-2xl mb-1 ${
+                          video.liked ? "text-red-500" : "text-white"
+                        }`}
+                      />
+                      <span className="text-xs">{video.likeCount || 0}</span>
                     </div>
 
                     <div className="flex flex-col items-center">
                       <FiMessageCircle className="text-2xl mb-1" />
-                      <span className="text-xs">32</span>
+                      <span className="text-xs">{video.commentCount || 0}</span>
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -180,7 +215,7 @@ const ReelsFeed = () => {
                     </div>
 
                     <Link
-                      to={"/food-partner/" + video.foodPartner}
+                      to={`/food-partner/${video.foodPartner}`}
                       className="inline-block bg-white text-black text-xs font-semibold px-3 py-1.5 rounded-md mt-2"
                     >
                       Visit Store
@@ -193,7 +228,7 @@ const ReelsFeed = () => {
         </div>
       </div>
 
-      {/* Bottom Navigation (Mobile Only) */}
+      {/* Bottom Nav (Mobile) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800">
         <div className="flex justify-around items-center p-3">
           <div className="flex flex-col items-center text-white">

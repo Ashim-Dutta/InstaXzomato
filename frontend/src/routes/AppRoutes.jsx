@@ -5,7 +5,7 @@ import UserLogin from '../components/LoginUser'
 import FoodPartnerRegister from '../components/RegisterPartner'
 import FoodPartnerLogin from '../components/LoginPartner'
 import Home from '../pages/general/Home'
-import CreateFood from '../pages/food-partner/CreateFoodPartner'
+import CreateFood from '../pages/food-partner/CreateFood'
 import Profile from '../pages/food-partner/Profile'
 
 const AppRoutes = () => {

@@ -19,5 +19,10 @@ router.get('/',
 )
 
 
+router.post('/like',
+    authMiddleware.authUserMiddleware,
+    foodController.likeFoodItem)
+
+
 
 module.exports = router;
